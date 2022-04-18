@@ -1,6 +1,7 @@
 {{ define "passwordreq" }}
     {{index .Site 0}}_PasswordRequire:
-      passwordRequire: "{{.Passwd}}"
+      passwordRequire:
+        password: "{{.Passwd}}"
         pathList:
       {{- range $par := .Passwdurl }}
           - {{$par}}
