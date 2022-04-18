@@ -93,11 +93,20 @@ func Exectemp() {
 		"RequestChallenge": "requestchallenge",
 		"PasswordRequire":  "passwordreq",
 	}
-	file = append(file, "site")
+
+	// 判断是否开启中间件
+
 	data := makedata()
-	for _, k := range data.Middlewares {
-		file = append(file, mids[k])
+
+	if data.Middlewares != nil {
+		file = append(file, "site")
+		for _, k := range data.Middlewares {
+			file = append(file, mids[k])
+		}
+	} else {
+		file = append(file, "sitenull")
 	}
+
 	file = append(file, "services")
 	if fileinfo, _ := os.Stat(nodedist); fileinfo != nil {
 		os.Remove(nodedist)
