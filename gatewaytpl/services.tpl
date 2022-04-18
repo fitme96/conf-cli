@@ -1,7 +1,7 @@
 {{define "services"}}
     {{index .Site 0}}:
       loadBalancer:
-        servers:Servers
+        servers:
       {{- range $par := .Servers }}
           - url: "{{$par}}"
       {{- end }}

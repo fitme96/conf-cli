@@ -99,7 +99,12 @@ func Exectemp() {
 		file = append(file, mids[k])
 	}
 	file = append(file, "services")
-
+	if fileinfo, _ := os.Stat(nodedist); fileinfo != nil {
+		os.Remove(nodedist)
+	}
+	if fileinfo, _ := os.Stat(gatewaydist); fileinfo != nil {
+		os.Remove(gatewaydist)
+	}
 	// 生成node动态配置文件
 	t := template.Must(template.ParseGlob("./nodetpl/*.tpl"))
 	f, err := os.OpenFile(nodedist, os.O_WRONLY|os.O_CREATE, 0744)
