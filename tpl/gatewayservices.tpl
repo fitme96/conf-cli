@@ -1,4 +1,4 @@
-{{define "services"}}
+{{define "gatewayservices"}}
     {{index .Site 0}}:
       loadBalancer:
         servers:

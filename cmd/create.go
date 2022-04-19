@@ -20,7 +20,6 @@ var (
 	passwdurl    string
 	site         string
 	middlewares  []string
-	// service      string
 	servers      string
 	requestchall string
 	nodedist     string
@@ -28,6 +27,7 @@ var (
 	urlwhite     string
 	ipwhite      string
 	white        string
+	tpl          string
 )
 
 // 构造结构体传入template
@@ -78,7 +78,6 @@ func makedata() *middl {
 		Urlwhite:     slic(urlwhite),
 		Ipwhite:      slic(ipwhite),
 		White:        white,
-		// Service:      service,
 	}
 
 	return &data
@@ -115,7 +114,7 @@ func Exectemp() {
 		os.Remove(gatewaydist)
 	}
 	// 生成node动态配置文件
-	t := template.Must(template.ParseGlob("./nodetpl/*.tpl"))
+	t := template.Must(template.ParseGlob(tpl + "*.tpl"))
 	f, err := os.OpenFile(nodedist, os.O_WRONLY|os.O_CREATE, 0744)
 	if err != nil {
 		panic(err)
@@ -125,7 +124,7 @@ func Exectemp() {
 	}
 
 	// 生成网关动态配置文件
-	t1 := template.Must(template.ParseGlob("./gatewaytpl/*.tpl"))
+	t1 := template.Must(template.ParseGlob(tpl + "*.tpl"))
 	f1, err := os.OpenFile(gatewaydist, os.O_WRONLY|os.O_CREATE, 0744)
 	if err != nil {
 		panic(err)
@@ -133,7 +132,7 @@ func Exectemp() {
 	if white != "" {
 		t1.ExecuteTemplate(f1, "gateway", data)
 		t1.ExecuteTemplate(f1, "ipwhitelist", data)
-		t1.ExecuteTemplate(f1, "services", data)
+		t1.ExecuteTemplate(f1, "gatewayservices", data)
 	} else {
 		t1.ExecuteTemplate(f1, "gatewaydefault", "")
 	}
@@ -158,8 +157,8 @@ func init() {
 	createCmd.Flags().StringVarP(&passwd, "passwd", "p", "", "sec1024. 应该与passwdurl一同开启,开启一项此中间件不生效 ")
 	createCmd.Flags().StringVarP(&passwdurl, "passwdurl", "u", "", "/test. 应该与passwd一同开启,开启一项此中间件不生效")
 	createCmd.Flags().StringVarP(&site, "site", "s", "", "whoami,domain.local.cn(必须的)")
+	createCmd.Flags().StringVarP(&tpl, "tpl", "t", "./tpl/", "模板路径")
 	createCmd.MarkFlagRequired("site")
-	// nodeCmd.Flags().StringVarP(&service, "service", "v", "", "whoami")
 	createCmd.Flags().StringVarP(&servers, "servers", "S", "", "http://192.168.1.1:82(必须的)")
 	createCmd.MarkFlagRequired("servers")
 	createCmd.Flags().StringVarP(&requestchall, "requestchall", "r", "", "2,2,2m,false")
