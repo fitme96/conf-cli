@@ -1,6 +1,7 @@
 {{ define "requestchallenge" }}
     {{ index .Site 0 }}_RequestChallenge:
       requestChallenge:
+        active: true
         jschallengeLimit: {{index .Requestchall 0}}
         captchaChallengeLimit: {{index .Requestchall 1}}
         timeLimit: "{{index .Requestchall 2}}"

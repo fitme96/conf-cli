@@ -18,6 +18,7 @@ http:
         contactNumber: ""
     defaultRealIp:
       realIp:
+        active: true
         xforwarfordepth: 0
         headername: "X-Forwarded-For"
         useheader: true
