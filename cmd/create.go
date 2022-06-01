@@ -17,6 +17,7 @@ var (
 	provincelist string
 	ipblacklist  string
 	passwd       string
+	encrypt      string
 	passwdurl    string
 	site         string
 	middlewares  []string
@@ -63,6 +64,9 @@ func makedata() *middl {
 	if provincelist != "" || ipblacklist != "" {
 		middlewares = append(middlewares, "IPBlacklist")
 	}
+	if encrypt != "" {
+		middlewares = append(middlewares, "static", "encrypt")
+	}
 	if urlwhite != "" || ipwhite != "" {
 		white = "IPWhiteList"
 	}
@@ -91,6 +95,7 @@ func Exectemp() {
 		"IPBlacklist":      "blacklist",
 		"RequestChallenge": "requestchallenge",
 		"PasswordRequire":  "passwordreq",
+		"static":           "encrypt",
 	}
 
 	// 判断是否开启中间件
@@ -155,6 +160,7 @@ func init() {
 	createCmd.Flags().StringVarP(&provincelist, "provincelist", "P", "", "陕西")
 	createCmd.Flags().StringVarP(&ipblacklist, "ipblacklist", "i", "", "192.168.1.1")
 	createCmd.Flags().StringVarP(&passwd, "passwd", "p", "", "sec1024. 应该与passwdurl一同开启,开启一项此中间件不生效 ")
+	createCmd.Flags().StringVarP(&encrypt, "encrypt", "e", "", "1")
 	createCmd.Flags().StringVarP(&passwdurl, "passwdurl", "u", "", "/test. 应该与passwd一同开启,开启一项此中间件不生效")
 	createCmd.Flags().StringVarP(&site, "site", "s", "", "whoami,domain.local.cn(必须的)")
 	createCmd.Flags().StringVarP(&tpl, "tpl", "t", "./tpl/", "模板路径")

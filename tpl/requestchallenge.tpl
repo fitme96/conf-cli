@@ -1,4 +1,6 @@
 {{ define "requestchallenge" }}
+    {{ index .Site 0 }}_staticFiles:
+      staticFiles: {}
     {{ index .Site 0 }}_RequestChallenge:
       requestChallenge:
         active: true

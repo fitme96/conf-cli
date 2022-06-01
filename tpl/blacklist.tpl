@@ -1,12 +1,8 @@
 {{ define "blacklist" }}
     {{index .Site 0}}_IPBlacklist:
-      ipBlackList:
+      regionList:
         active: true
-        sourceRange:
-      {{- range $par := .Ipblacklist }}
-          - "{{$par}}"
-      {{- end }}       
-        blackProvince: 
+        WhiteProvince:
       {{- range $par := .Provincelist }}
           - "{{$par}}"
       {{- end }}
